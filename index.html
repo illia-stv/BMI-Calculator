@@ -156,7 +156,7 @@
         }
 
         #answer .overweight {
-            color: #3dff61
+            color: #f5e642;
         }
 
         #answer .obesity {
@@ -224,40 +224,62 @@
         calculateButton.addEventListener( 'click', calculateBMI );
         resetButton.addEventListener( 'click', resetForm );
 
+        /**
+         * Registers listener on `enter` keystroke. When pressed calculates
+         * BMI on provided data.
+         */
+        document.addEventListener( 'keydown', function( event ) {
+            if ( event.key === 'Enter' || event.keyCode === 13 ) {
+                calculateBMI();
+            }
+        } );
+
+        /**
+         * Calculates BMI relying on `height` and `weight` values and displaying
+         * result in the answer section. If `height` and `weight` are invalid,
+         * displayes error message.
+         */
         function calculateBMI() {
-            const height = document.getElementById('height').value;
-            const weight = document.getElementById('weight').value;
+            const height = document.getElementById( 'height' ).value;
+            const weight = document.getElementById( 'weight' ).value;
             
             removeAnswer();
 
-            if ((height === '' || isNaN(height)) || parseInt(height) < 0) {
-                alert('Please enter a valid height.');
+            const heightIsInvalid = ( height === '' || isNaN( height ) ) || parseInt( height ) < 0;
+
+            if ( heightIsInvalid ) {
+                displayError( 'Please enter a valid height.' );
                 return;
             }
 
-            if ((weight === '' || isNaN(weight)) || parseInt(weight) < 0) {
-                alert('Please enter a valid weight.');
+            const weightIsInvalid = ( weight === '' || isNaN( weight ) ) || parseInt( weight ) < 0;
+
+            if ( weightIsInvalid ) {
+                displayError( 'Please enter a valid weight.' );
                 return;
             }
 
-            const normalizedHeight = height/100;
-            const bmi = weight/(normalizedHeight**2);
-            const finalResult = Math.round(bmi * 100) / 100
+            const normalizedHeight = height / 100;
+            const bmi = weight / ( normalizedHeight**2 );
+            const finalResult = Math.round( bmi * 100 ) / 100
 
-            const answer = document.querySelector('#answer');
+            const answerElement = document.querySelector('#answer');
             const category = getBMICategory( finalResult );
 
-            const bmiValue = document.createElement( 'h3' );
-            const bmiCategory = document.createElement( 'h3' );
+            const bmiValueElement = document.createElement( 'h3' );
+            const bmiCategoryElement = document.createElement( 'h3' );
 
-            bmiValue.innerText = `Your BMI is ${ finalResult }`;
-            bmiCategory.innerText = category;
-            bmiCategory.classList.add( category.split( ' ' ).join( '-' ).toLowerCase() );
+            bmiValueElement.innerText = `Your BMI is ${ finalResult }`;
+            bmiCategoryElement.innerText = category;
+            bmiCategoryElement.classList.add( category.split( ' ' ).join( '-' ).toLowerCase() );
 
-            answer.append( bmiValue );
-            answer.append( bmiCategory );
+            answerElement.append( bmiValueElement );
+            answerElement.append( bmiCategoryElement );
         }
 
+        /**
+         * Resetes all input elements to the default value.
+         */
         function resetForm() {
             document.getElementById('gender').value = 'male';
             document.getElementById('age').value = 25;
@@ -267,6 +289,9 @@
             removeAnswer();
         }
 
+        /**
+         * Removes calculated BMI result if exists.
+         */
         function removeAnswer() {
             const children = Array.from( document.querySelector('#answer').children );
 
@@ -277,12 +302,30 @@
             }
         }
 
-        function getBMICategory(bmi) {
-            if (bmi < 18.5) {
+        /**
+         * Displayes error message.
+         * 
+         * @param message String which represents error message.
+         */
+        function displayError( message ) {
+            // It is simple implementation of displaying error message.
+            // As it was extracted to the separated function, it depends
+            // on abstraction, so implementation in the future easily 
+            // could be changed.
+            alert( message );
+        }
+
+        /**
+         * Returns category depending on BMI value.
+         * 
+         * @param bmi Number which represents bmi value.
+         */
+        function getBMICategory( bmi ) {
+            if ( bmi < 18.5 ) {
                 return "Underweight";
-            } else if (bmi >= 18.5 && bmi < 24.9) {
+            } else if ( bmi >= 18.5 && bmi < 24.9 ) {
                 return "Normal weight";
-            } else if (bmi >= 25 && bmi < 29.9) {
+            } else if ( bmi >= 25 && bmi < 29.9 ) {
                 return "Overweight";
             } else {
                 return "Obesity";
