@@ -202,6 +202,8 @@
         function calculateBMI() {
             const height = document.getElementById('height').value;
             const weight = document.getElementById('weight').value;
+            
+            removeAnswer();
 
             if ((height === '' || isNaN(height)) || parseInt(height) < 0) {
                 alert('Please enter a valid height.');
@@ -231,7 +233,13 @@
             document.getElementById('age-value').textContent = 25;
             document.getElementById('height').value = '';
             document.getElementById('weight').value = '';
-            document.querySelector('#answer h3').remove();
+            removeAnswer();
+        }
+
+        function removeAnswer() {
+            document.querySelector('#answer').childNodes.forEach( element => {
+                element.remove();
+            } )
         }
     </script>
   </body>
