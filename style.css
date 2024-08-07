@@ -71,6 +71,20 @@ input[type="number"]::placeholder {
   color: #eee;
 }
 
+input[type="number"]:invalid {
+  border: 1px solid red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 input:focus,
 select:focus {
   border: 1px solid #f57242;
