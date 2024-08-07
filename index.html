@@ -146,6 +146,22 @@
             font-size: 1.2rem;
         }
 
+        #answer .underweight {
+            color: #3d5aff;
+        }
+
+        #answer .normal-weight {
+            color: #3dff61;
+        }
+
+        #answer .overweight {
+            color: #3dff61
+        }
+
+        #answer .obesity {
+            color: #ff3d40;
+        }
+
         @media (max-width: 600px) {
             h2 {
                 font-size: 2rem;
@@ -224,11 +240,17 @@
             const finalResult = Math.round(bmi * 100) / 100
 
             const answer = document.querySelector('#answer');
+            const category = getBMICategory( finalResult );
 
-            const heading = document.createElement( 'h3' );
-            heading.innerText = `Your BMI is ${ finalResult }`;
+            const bmiValue = document.createElement( 'h3' );
+            const bmiCategory = document.createElement( 'h3' );
 
-            answer.append( heading );
+            bmiValue.innerText = `Your BMI is ${ finalResult } - ${ category }`;
+            bmiCategory.innerText = category;
+            bmiCategory.classList.add( category.split( ' ' ).join( '-' ).toLowerCase() );
+
+            answer.append( bmiValue );
+            answer.append( bmiCategory );
         }
 
         function resetForm() {
@@ -241,9 +263,25 @@
         }
 
         function removeAnswer() {
-            document.querySelector('#answer').childNodes.forEach( element => {
-                element.remove();
-            } )
+            const children = Array.from( document.querySelector('#answer').children );
+
+            if ( children.length ) {
+                children.forEach( element => {
+                    element.remove();
+                } )
+            }
+        }
+
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) {
+                return "Underweight";
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                return "Normal weight";
+            } else if (bmi >= 25 && bmi < 29.9) {
+                return "Overweight";
+            } else {
+                return "Obesity";
+            }
         }
     </script>
   </body>
