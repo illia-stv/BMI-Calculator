@@ -217,11 +217,11 @@
         <section id="answer"></section>
     </main>
 
-    <script type="module">
+    <script>
         const calculateButton = document.querySelector( '#calculate' );
         const resetButton = document.querySelector( '#reset' );
 
-        calculateButton.addEventListener( 'click', calculateBMI );
+        calculateButton.addEventListener( 'click', showBMI );
         resetButton.addEventListener( 'click', resetForm );
 
         /**
@@ -230,16 +230,15 @@
          */
         document.addEventListener( 'keydown', function( event ) {
             if ( event.key === 'Enter' || event.keyCode === 13 ) {
-                calculateBMI();
+                showBMI();
             }
         } );
 
         /**
-         * Calculates BMI relying on `height` and `weight` values and displaying
-         * result in the answer section. If `height` and `weight` are invalid,
-         * displayes error message.
+         * Displays BMI value. If `height` and `weight` are invalid,
+         * displays error message.
          */
-        function calculateBMI() {
+        function showBMI() {
             const height = document.getElementById( 'height' ).value;
             const weight = document.getElementById( 'weight' ).value;
             
@@ -259,17 +258,15 @@
                 return;
             }
 
-            const normalizedHeight = height / 100;
-            const bmi = weight / ( normalizedHeight**2 );
-            const finalResult = Math.round( bmi * 100 ) / 100
+            const bmi = calculateBMI( height, weight );
 
             const answerElement = document.querySelector('#answer');
-            const category = getBMICategory( finalResult );
+            const category = getBMICategory( bmi );
 
             const bmiValueElement = document.createElement( 'h3' );
             const bmiCategoryElement = document.createElement( 'h3' );
 
-            bmiValueElement.innerText = `Your BMI is ${ finalResult }`;
+            bmiValueElement.innerText = `Your BMI is ${ bmi }`;
             bmiCategoryElement.innerText = category;
             bmiCategoryElement.classList.add( category.split( ' ' ).join( '-' ).toLowerCase() );
 
@@ -313,6 +310,19 @@
             // on abstraction, so implementation in the future easily 
             // could be changed.
             alert( message );
+        }
+
+        /**
+         * Returns calculated BMI value.
+         * 
+         * @param height Number which represents height in (cm).
+         * @param weight Number which represents weight in (kg).
+         */
+        function calculateBMI( height, weight ) {
+            const normalizedHeight = height / 100;
+            const bmi = weight / ( normalizedHeight**2 );
+
+            return Math.round( bmi * 100 ) / 100;
         }
 
         /**
