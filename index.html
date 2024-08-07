@@ -43,6 +43,10 @@
             margin-bottom: 20px;
         }
 
+        fieldset {
+            border: none;
+        }
+
         .container {
             padding: 20px;
             border-radius: 10px;
@@ -124,17 +128,14 @@
 
         button#calculate,
         button#reset {
-            background: -webkit-linear-gradient(#f542ec, #f57242);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background: #333;
             border: 1px solid #f542ec;
+            color: #fff;
         }
 
-        button:hover {
-            border-color: #fff;
-            background: -webkit-linear-gradient(#fff, #f57242);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        button#calculate:hover,
+        button#reset:hover {
+            box-shadow: 0px 0px 24px 0px #f57242;
         }
 
         #answer {
@@ -184,33 +185,37 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <main class="container">
         <h2>BMI Calculator</h2>
-        <div class="form-group">
-            <label for="gender">Gender:</label>
-            <select id="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="age">Age: <span id="age-value">25</span></label>
-            <input type="range" id="age" min="1" max="100" value="25" oninput="document.getElementById('age-value').textContent = this.value;">
-        </div>
-        <div class="form-group">
-            <label for="height">Height (cm):</label>
-            <input type="number" id="height" placeholder="Enter your height in cm" min="0" step="0.1">
-        </div>
-         <div class="form-group">
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" placeholder="Enter your weight in kg" min="0" step="0.1">
-        </div>
-        <div class="buttons">
-            <button id="calculate">Calculate</button>
-            <button id="reset">Reset</button>
-        </div>
-        <div id="answer"></div>
-    </div>
+        <form>
+            <fieldset>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age: <span id="age-value">25</span></label>
+                    <input type="range" id="age" name="age" min="1" max="100" value="25" oninput="document.getElementById('age-value').textContent = this.value;">
+                </div>
+                <div class="form-group">
+                    <label for="height">Height (cm):</label>
+                    <input type="number" id="height" name="height" placeholder="Enter your height in cm" min="0" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" placeholder="Enter your weight in kg" min="0" step="0.1">
+                </div>
+            </fieldset>
+            <div class="buttons">
+                <button type="button" id="calculate">Calculate</button>
+                <button type="reset" id="reset">Reset</button>
+            </div>
+        </form>
+        <section id="answer"></section>
+    </main>
 
     <script type="module">
         const calculateButton = document.querySelector( '#calculate' );
