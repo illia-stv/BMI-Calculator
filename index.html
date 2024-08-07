@@ -248,6 +248,7 @@
 
             if ( heightIsInvalid ) {
                 displayError( 'Please enter a valid height.' );
+
                 return;
             }
 
@@ -255,6 +256,7 @@
 
             if ( weightIsInvalid ) {
                 displayError( 'Please enter a valid weight.' );
+
                 return;
             }
 
@@ -268,14 +270,17 @@
 
             bmiValueElement.innerText = `Your BMI is ${ bmi }`;
             bmiCategoryElement.innerText = category;
-            bmiCategoryElement.classList.add( category.split( ' ' ).join( '-' ).toLowerCase() );
+
+            const categoryClassName = category.split( ' ' ).join( '-' ).toLowerCase();
+
+            bmiCategoryElement.classList.add( categoryClassName );
 
             answerElement.append( bmiValueElement );
             answerElement.append( bmiCategoryElement );
         }
 
         /**
-         * Resetes all input elements to the default value.
+         * Resets all input elements to the default value.
          */
         function resetForm() {
             document.getElementById('gender').value = 'male';
