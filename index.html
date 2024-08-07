@@ -5,6 +5,163 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BMI Calculator</title>
+    <style>
+        :root {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+            color-scheme: light dark;
+            color: rgba(255, 255, 255, 0.87);
+            background-color: #242424;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #242424;
+            overflow-y: auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            background: -webkit-linear-gradient(#f542ec, #f57242);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 24px 0px rgba(245, 66, 236, 1);
+            background-color: #2c2c2c;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(245, 66, 236, 1);
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        input[type="number"]::placeholder {
+            color: #eee;
+        }
+
+        input[type="number"]:invalid {
+            border: 1px solid red;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        input:focus,
+        select:focus {
+            border: 1px solid #f57242;
+            outline: none;
+        }
+
+        input[type="range"] {
+            background-color: #333;
+            accent-color: rgba(245, 66, 236, 1);
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button#calculate,
+        button#reset {
+            background: -webkit-linear-gradient(#f542ec, #f57242);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border: 1px solid #f542ec;
+        }
+
+        button:hover {
+            border-color: #fff;
+            background: -webkit-linear-gradient(#fff, #f57242);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #answer {
+         margin-top: 20px;
+        }
+
+        #answer h3 {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            select,
+            input[type="range"],
+            button {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
   </head>
   <body>
     <div class="container">
@@ -35,6 +192,47 @@
         <div id="answer"></div>
     </div>
 
-    <script type="module" src="/main.js"></script>
+    <script type="module">
+        const calculateButton = document.querySelector( '#calculate' );
+        const resetButton = document.querySelector( '#reset' );
+
+        calculateButton.addEventListener( 'click', calculateBMI );
+        resetButton.addEventListener( 'click', resetForm );
+
+        function calculateBMI() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+
+            if ((height === '' || isNaN(height)) || parseInt(height) < 0) {
+                alert('Please enter a valid height.');
+                return;
+            }
+
+            if ((height === '' || isNaN(height)) || parseInt(weight) < 0) {
+                alert('Please enter a valid weight.');
+                return;
+            }
+
+            const normalizedHeight = height/100;
+            const bmi = weight/(normalizedHeight**2);
+            const finalResult = Math.round(bmi * 100) / 100
+
+            const answer = document.querySelector('#answer');
+
+            const heading = document.createElement( 'h3' );
+            heading.innerText = `Your BMI is ${ finalResult }`;
+
+            answer.append( heading );
+        }
+
+        function resetForm() {
+            document.getElementById('gender').value = 'male';
+            document.getElementById('age').value = 25;
+            document.getElementById('age-value').textContent = 25;
+            document.getElementById('height').value = '';
+            document.getElementById('weight').value = '';
+            document.querySelector('#answer h3').remove();
+        }
+    </script>
   </body>
 </html>
